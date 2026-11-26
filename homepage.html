@@ -31,6 +31,11 @@
           .capsule-row img:hover {
                transform: scale(1.6);
           }
+          .capsule {
+               display: flex;
+               flex-direction: column;
+               align-items: center;gap: 8px;
+          }
 
           </style>
 
@@ -38,10 +43,20 @@
      <body>
      <h1> PICK YOUR CAPSULE </h1>
      <div class = "capsule-row">
-     <a href="capsule1.html"><img src = "machine.png" alt="machine"></a>
-     <a href= "capsule2.html"><img src = "machine.png" alt=" machine2"> </a>
-     <a href = "capsule3.html"><img src = "machine.png" alt = "machine3"> </a>
+          <div class = "capsule">
+            <a href="capsule1.html"><img src = "machine.png" alt="machine"></a>
+              <h2> GAME </h2>
+          </div>
 
+          <div class = "capsule">
+             <a href= "capsule2.html"><img src = "machine.png" alt=" machine2"> </a>
+             <h3> ANIME </h3>
+          </div>
+          
+          <div class = "capsule">
+           <a href = "capsule3.html"><img src = "machine.png" alt = "machine3"> </a>
+              <h4> MUSIC </h4>
+          </div>
      </div>
 
      </body>
