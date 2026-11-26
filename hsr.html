@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<htrml>
+<html>
      <head>
           <title> HONKAI STAR RAIL </title>
      <STYLE>
@@ -75,10 +75,11 @@
                flex-wrap: wrap;
                gap: 12px;
                align-items: flex-start;
+               justify-content: center;
           }
           .background-bag img {
-               width: 60px;
-               height: 60px;
+               width: 150px;
+               height: 104px;
                object-fit: contain;
                cursor: pointer;
                transition: transform 0.2s ease;
@@ -98,18 +99,15 @@
                <div class ="popout-box">
                     <button class = "close-btn" id = "closePopout">&times;</button>
                     <h3> BAG </h3>
-                    
+                    <p> BACKGROUNDS </p>
                    <div class = "background-bag">
-                    <p> backgrounds </p>
-                   <div class = "background-bag">
-                    <img src = "amphorous.jpg" alt = "amphorous">
-                    <img src = "beblog.jpg" alt = "beblog">
-                    <img src = "The Xianzhou Luofu.jpg" alt = "The Xianzhou Luofu">
-                    <img src = "penacony.jpg" alt = "penacony">
-                    <img src = "hertastation.jpg" alt = "hertastation">
-                    <img src = "Planarcadia.jpg" alt = "Planarcadia">
-                   </div>
-
+                    <img src = "amphorous.jpg" data-bg= "amphorous "alt = "amphorous">
+                    <img src = "beblog.jpg" data-bg = "beblog" = "beblog">
+                    <img src = "The Xianzhou Luofu.jpg" data-bg = "The Xianzhou Luofu" alt = "The Xianzhou Luofu">
+                    <img src = "penacony.jpg" data-bg = "penacony" alt = "penacony">
+                    <img src = "hertastation.jpg" data-bg= "hertastation" alt = "hertastation">
+                    <img src = "Planarcadia.jpg" data-bg = "Planarcadia" alt = "Planarcadia">
+          
                </div>
           </div>
      <script>
@@ -120,6 +118,21 @@
           popout.onclick = (e) => {
                if (e.target === popout) popout.classList.remove("show");
           };
+
+          const bgImages = document.querySelectorAll(".background-bag img");
+          bgImages.forEach((img) => {
+               img.addEventListener("click", () => {
+                    const chosen = img.dataset.bg;
+                    document.body.style.backgroundImage = `url("${chosen}")`;
+                    localStorage.setItem("selectedBg", chosen);
+                    popout.classList.remove("show");
+               });
+          });
+
+          const savedBg = localStorage.getItem("selectedBg");
+          if (savedBg) {
+               document.body.style.backgroundImage = `url("${chosen}")`;
+          }
 
      
      </script>
