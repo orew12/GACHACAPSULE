@@ -5,37 +5,35 @@
           <title> GACHA CAPSULE</title>
           <style>
                #playBtn {
-                    padding: 24px; 
+                    padding: 20px; 
                     background: white;
                     color: black;
-                    border-radius: 20%;
+                    border-radius: 20px;
                     cursor: pointer;
                     text-align: center;
+                    font-family: "Indie Flower", cursive;
+                    font-size: 50px;
                }
                body { 
                     text-align: center;
                     background-color: beige;
                     padding-top: 170px;
                     font-size: 30px;
-               }
-               #result {
-                    font-size: 1.3em;
-                    margin-top: 28px;
-                    min-height: 1.6em;
+                    font-family: "Indie Flower", cursive;
                }
           </style>
      </head>
      <body>
           <h1> GACHA CAPSULE </h1>
           <button id = "playBtn"> PLAY </button>
-          <p id = "result"> </p>
      <script>
                const btn = document.getElementById("playBtn");
                const result = document.getElementById("result");
-               btn.addEventlistener("click", function () {
+               btn.addEventListener("click", function () {
                     console.log("clicked!");
-                    result.textContent = "result";
+                    window.location.href = "homepage.html";
                })
+          
           
      </script>
      </body>
