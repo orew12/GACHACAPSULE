@@ -228,23 +228,23 @@
           @keyframes ballPop {
                0% {
                     opacity: 0; 
-                    transform: translateY(0) scale (0.4);
+                    transform: translateY(0) scale(0.4);
                }
                20% {
                     opacity: 1; 
-                    transform: translateY(-40px) scale (1);
+                    transform: translateY(-40px) scale(1);
                }
                60% {
                     opacity: 1; 
-                    transform: translateY(-90px) scale (1.05);
+                    transform: translateY(-90px) scale(1.05);
                }
                85% {
                     opacity: 1; 
-                    transform: translateY(-90px) scale (1.4);
+                    transform: translateY(-90px) scale(1.4);
                }
                100% {
                     opacity: 0; 
-                    transform: translateY(-90px) scale (2.4);
+                    transform: translateY(-90px) scale(2.4);
                }
           }
           .card-scene {
@@ -252,6 +252,7 @@
                width: 220px;
                height: 300px;
                opacity: 0;
+               perspective: 1200px;
           }
           .card-scene.show {
                opacity: 1;
@@ -263,21 +264,15 @@
                transform-style: preserve-3d;
           }
           .card-flip.flipping {
-               animation: flipUp 1.2s cubic-bezier(0.3, 0.9, 0.4, 1,) forwards;
+               animation: flipUp 1.2s cubic-bezier(0.3, 0.9, 0.4, 1) forwards;
           }
-          @keyframes flipUp {
-                0% {
-                    transform: translateY(0) rotateY(0deg) rotateX(0deg) scale(0.5); 
-                }
-                45% {
-                    transform: translateY(-140px) rotateY(180deg) rotateX(20deg) scale(1.1); 
-                }
-                70% {
-                    transform: translateY(-40px) rotateY(360deg) rotateX(0deg) scale(1); 
-                }
-                100% { transform: translateY(0) rotateY(360deg) rotateX(0deg) scale(1); 
-               }
-          }
+         @keyframes flipUp {
+            0%   { transform: translateY(0) rotateY(0deg) rotateX(0deg) scale(0.5); }
+            45%  { transform: translateY(-140px) rotateY(180deg) rotateX(20deg) scale(1.1); }
+            60%  { transform: translateY(-150px) rotateY(270deg) rotateX(10deg) scale(1.05); }
+            100% { transform: translateY(0) rotateY(180deg) rotateX(0deg) scale(1); }
+             }
+
           .card-face {
                position: absolute;
                inset: 0;
@@ -288,6 +283,9 @@
           .card-back {
                background: linear-gradient(135deg, #2a1b4a, #6d4bb0);
                border: 2px solid #f0c060;
+               background-image: url("backcoverhsr.jpg");
+               background-size: cover;
+               background-position: center;
           }
           .card-front {
                transform: rotateY(180deg);
@@ -317,7 +315,7 @@
      </head>
      <body>
           <div class = "CAPSULE">
-               <img src = "machine.png" alt = "hsrcapsule">
+               <img src = "machine.png" id = "capsule" alt = "hsrcapsule">
           </div>
 
           <div class = "pull-stage" id = "pullStage">
@@ -329,7 +327,8 @@
                          <div class = "card-face card-back"></div>
                          <div class = "card-face card-front">
                               <img id = "cardImg" src ="" alt="">
-                         </div>
+                              <span class = " card-name" id = "cardName"></span>
+                          </div>
                     </div>
                </div>
           </div>
@@ -409,7 +408,7 @@
                grid.appendChild(card);
           });
           const pullStage = document.getElementById("pullStage");
-          const crackFlash = document.getElementById("carckFlash");
+          const crackFlash = document.getElementById("crackFlash");
           const pullBall = document.getElementById("pullBall");
           const cardScene = document.getElementById("cardScene");
           const cardFlip = document.getElementById("cardFlip");
@@ -440,24 +439,25 @@
                },1000);
 
                setTimeout(() => {
-                    cardFlip.classList.add("burst");
-                    pullBall.classList.add("flipping");
+                    cardFlip.classList.add("flipping");
+                    pullBall.classList.add("pop");
                },1150);
 
                setTimeout(() => {
                     pullStage.addEventListener("click", closePull, { once: true});
           },2400);
-
-          function closePull() {
+          }
+              function closePull() {
                pullStage.classList.remove("show");
+               cardFlip.classList.remove("flipping");
+               cardScene.classList.remove("show");
                pulling = false;
           }
-          document.getElementById("capsule").addEventListener("click", startPull);
 
-     }
+          document.getElementById("capsule").addEventListener("click", startPull);
 
      
      </script>
      </body>
 
-</htrml>
+</html>
