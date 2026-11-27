@@ -172,6 +172,146 @@
           .CAPSULE {
                text-align: center;
           }
+          .pull-stage {
+               position: fixed;
+               inset: 0;
+               display: none;
+               align-items: center;
+               justify-content: center;
+               z-index: 30;
+               background: rgba(0,0,0,0.6);
+               backdrop-filter: blur(5px);
+               perspective: 1200px;
+          }
+          .pull-stage.show {
+               display: flex;
+          }
+          .crack-flash {
+               position: absolute;
+               inset: 0;
+               background: radial-gradient(circle, #fff, #c9a6ff 35%,transparent 70%);
+               opacity: 0;
+               pointer-events: none;
+          }
+          .crack-flash.burst {
+               animation: burst 0.7s ease-out forwards;
+          }
+          @keyframes burst {
+               0% {
+                    opacity: 0;
+                    transform: scale(0.2);
+               }
+               30% {
+                    opacity: 1;
+                    transform: scale(1);
+               }
+               100% {
+                    opacity: 0;
+                    transform: scale(2.2);
+               }
+          }
+          .pull-ball {
+               margin: -22px 0 0 -22px;
+               position: absolute;
+               top: 55%;
+               left: 50%;
+               width: 44px;
+               height: 44px;
+               border-radius: 50%;
+               background: radial-gradient(circle at 30% 30%, #fff, #b07ce8 60%, #5a2d8a);
+               box-shadow: 0 0 24px rgba(176, 124, 232, 0.9);
+               opacity: 0;
+          }
+          .pull-ball.pop {
+               animation: ballPop 1s ease-out forwards;
+          }
+          @keyframes ballPop {
+               0% {
+                    opacity: 0; 
+                    transform: translateY(0) scale (0.4);
+               }
+               20% {
+                    opacity: 1; 
+                    transform: translateY(-40px) scale (1);
+               }
+               60% {
+                    opacity: 1; 
+                    transform: translateY(-90px) scale (1.05);
+               }
+               85% {
+                    opacity: 1; 
+                    transform: translateY(-90px) scale (1.4);
+               }
+               100% {
+                    opacity: 0; 
+                    transform: translateY(-90px) scale (2.4);
+               }
+          }
+          .card-scene {
+               position: relative;
+               width: 220px;
+               height: 300px;
+               opacity: 0;
+          }
+          .card-scene.show {
+               opacity: 1;
+          }
+          .card-flip {
+               position: relative;
+               width: 100%;
+               height: 100%;
+               transform-style: preserve-3d;
+          }
+          .card-flip.flipping {
+               animation: flipUp 1.2s cubic-bezier(0.3, 0.9, 0.4, 1,) forwards;
+          }
+          @keyframes flipUp {
+                0% {
+                    transform: translateY(0) rotateY(0deg) rotateX(0deg) scale(0.5); 
+                }
+                45% {
+                    transform: translateY(-140px) rotateY(180deg) rotateX(20deg) scale(1.1); 
+                }
+                70% {
+                    transform: translateY(-40px) rotateY(360deg) rotateX(0deg) scale(1); 
+                }
+                100% { transform: translateY(0) rotateY(360deg) rotateX(0deg) scale(1); 
+               }
+          }
+          .card-face {
+               position: absolute;
+               inset: 0;
+               border-radius: 12px;
+               backface-visibility: hidden;
+               overflow: hidden;
+          }
+          .card-back {
+               background: linear-gradient(135deg, #2a1b4a, #6d4bb0);
+               border: 2px solid #f0c060;
+          }
+          .card-front {
+               transform: rotateY(180deg);
+               border: 2px solid #f0c060;
+               box-shadow: 0 0 40px rgba(240, 192, 96, 0.6);
+               background: #111;
+          }
+          .card-front img {
+               width: 100%;
+               height: 100%;
+               object-fit: cover;
+               display: block;
+          }
+          .card-name {
+               position: absolute;
+               bottom: 0;
+               left: 0;
+               right: 0;
+               padding: 8px;
+               font-size: 14px;
+               text-align: center;
+               color: #fff;
+               background: linear-gradient(transparent, rgba(0,0,0, 0.9));
+          }
 
      </STYLE>
      </head>
@@ -184,7 +324,14 @@
                <div class = "crack-flash"id = "crackFlash"></div>
                <div class = "pull-ball" id = "pullBall"></div>
 
-               <div class="card-scene"
+               <div class="card-scene" id = "cardScene">
+                    <div class = "card-flip" id = "cardFlip">
+                         <div class = "card-face card-back"></div>
+                         <div class = "card-face card-front">
+                              <img id = "cardImg" src ="" alt="">
+                         </div>
+                    </div>
+               </div>
           </div>
 
           <button class = "img-btn" id = "openPopout">
@@ -261,6 +408,53 @@
                `;
                grid.appendChild(card);
           });
+          const pullStage = document.getElementById("pullStage");
+          const crackFlash = document.getElementById("carckFlash");
+          const pullBall = document.getElementById("pullBall");
+          const cardScene = document.getElementById("cardScene");
+          const cardFlip = document.getElementById("cardFlip");
+          const cardImg = document.getElementById("cardImg");
+          const cardName = document.getElementById("cardName");
+
+          let pulling = false;
+          function startPull() {
+               if (pulling) return;
+               pulling = true;
+               const picked = characters[Math.floor(Math.random() * characters.length)];
+               cardImg.src = picked.img;
+               cardName.textContent = picked.name;
+
+               pullStage.classList.add("show");
+               crackFlash.classList.remove("burst");
+               pullBall.classList.remove("pop");
+               cardScene.classList.remove("show");
+               cardFlip.classList.remove("flipping");
+               
+               setTimeout(() => {
+                    crackFlash.classList.add("burst");
+                    pullBall.classList.add("pop");
+               },200);
+
+               setTimeout(() => {
+                    cardScene.classList.add("show");
+               },1000);
+
+               setTimeout(() => {
+                    cardFlip.classList.add("burst");
+                    pullBall.classList.add("flipping");
+               },1150);
+
+               setTimeout(() => {
+                    pullStage.addEventListener("click", closePull, { once: true});
+          },2400);
+
+          function closePull() {
+               pullStage.classList.remove("show");
+               pulling = false;
+          }
+          document.getElementById("capsule").addEventListener("click", startPull);
+
+     }
 
      
      </script>
